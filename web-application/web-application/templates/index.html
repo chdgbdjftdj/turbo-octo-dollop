@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учёт сотрудников</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .employee-table th,
+        .employee-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .employee-table th {
+            background: #34495e;
+            color: white;
+        }
+        .employee-table tr:hover {
+            background: #f8f9fa;
+        }
+        .salary {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .department {
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Учёт сотрудников компании</h1>
+        <p>Веб-приложение для управления персоналом</p>
+    </div>
+
+    <table class="employee-table">
+        <thead>
+            <tr>
+                <th>Сотрудник</th>
+                <th>Должность</th>
+                <th>Отдел</th>
+                <th>Зарплата</th>
+                <th>Дата приёма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.position }}</td>
+                <td class="department">{{ employee.department_name }}</td>
+                <td class="salary">{{ "{:,.0f}".format(employee.salary) }} ₽</td>
+                <td>{{ employee.hire_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px; text-align: center; color: #7f8c8d;">
+        <p>Всего сотрудников: {{ employees|length }}</p>
+    </div>
+</body>
+</html>
