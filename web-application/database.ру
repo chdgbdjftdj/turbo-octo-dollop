@@ -1,0 +1,42 @@
+import sqlite3
+
+def create_database():
+    conn = sqlite3.connect('company.db')
+    cursor = conn.cursor()
+    
+    # Создаём таблицы (как в sqliteonline)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS departments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            manager TEXT
+        )
+    ''')
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS employees (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            position TEXT,
+            department_id INTEGER,
+            salary REAL,
+            hire_date TEXT,
+            FOREIGN KEY (department_id) REFERENCES departments(id)
+        )
+    ''')
+    
+    # Добавляем тестовые данные
+    cursor.execute("INSERT OR IGNORE INTO departments (name, manager) VALUES ('IT отдел', 'Иванов И.И.')")
+    cursor.execute("INSERT OR IGNORE INTO departments (name, manager) VALUES ('Бухгалтерия', 'Петрова П.П.')")
+    cursor.execute("INSERT OR IGNORE INTO departments (name, manager) VALUES ('Отдел продаж', 'Сидоров С.С.')")
+    
+    cursor.execute("INSERT OR IGNORE INTO employees (name, position, department_id, salary, hire_date) VALUES ('Алексей Козлов', 'Программист', 1, 80000, '2023-01-15')")
+    cursor.execute("INSERT OR IGNORE INTO employees (name, position, department_id, salary, hire_date) VALUES ('Мария Новикова', 'Бухгалтер', 2, 60000, '2022-03-10')")
+    cursor.execute("INSERT OR IGNORE INTO employees (name, position, department_id, salary, hire_date) VALUES ('Дмитрий Волков', 'Менеджер', 3, 70000, '2023-11-01')")
+    
+    conn.commit()
+    conn.close()
+    print("База данных создана!")
+
+if __name__ == "__main__":
+    create_database()
